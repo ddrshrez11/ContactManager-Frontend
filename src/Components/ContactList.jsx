@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -12,17 +12,10 @@ function ContactList() {
   const dispatch = useDispatch();
   const contact = useSelector((state) => state.contact);
   console.log(contact.contacts);
-  // const { contact } = store.getState();
-  // console.log(contact);
   const contacts = contact.contacts;
-
-  // const onAddClick = () => {
-  //   const name = prompt("Enter Item");
-  //   if (name) {
-  //     // setContacts((prevState) => [...prevState, { id: uuid(), name }]);
-  //     dispatch(addContact(name));
-  //   }
-  // };
+  useEffect(() => {
+    dispatch(getContacts());
+  }, []);
 
   const onDeleteClick = (id) => {
     dispatch(deleteContact(id));
@@ -40,12 +33,12 @@ function ContactList() {
       </Button> */}
       <AddContactModal />
       <ListGroup>
-        {contacts.map(({ id, name }) => (
-          <ListGroup.Item key={id}>
+        {contacts.map(({ _id, name }) => (
+          <ListGroup.Item key={_id}>
             <Button
               className="remove-btn"
               variant="danger"
-              onClick={() => onDeleteClick(id)}
+              onClick={() => onDeleteClick(_id)}
             >
               &times;
             </Button>

@@ -1,15 +1,21 @@
-import { v4 as uuid } from "uuid";
-import { GET_CONTACTS, ADD_CONTACT, DELETE_CONTACT } from "../Actions/Types";
+import {
+  GET_CONTACTS,
+  ADD_CONTACT,
+  DELETE_CONTACT,
+  CONTACTS_LOADING,
+} from "../Actions/Types";
 
 const initialState = {
   contacts: [],
 };
 
-export default function (state = initialState, action) {
+const contactReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CONTACTS:
       return {
         ...state,
+        contacts: action.payload,
+        loading: false,
       };
     case ADD_CONTACT:
       return {
@@ -20,11 +26,18 @@ export default function (state = initialState, action) {
       return {
         ...state,
         contacts: state.contacts.filter(
-          (contact) => contact.id !== action.payload
+          (contact) => contact._id !== action.payload
         ),
+      };
+    case CONTACTS_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
 
     default:
       return state;
   }
-}
+};
+
+export default contactReducer;

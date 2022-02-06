@@ -3,7 +3,6 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { connect, useDispatch } from "react-redux";
-import { v4 as uuid } from "uuid";
 import { addContact } from "../Actions/contactActions";
 
 export const AddContactModal = (props) => {
@@ -26,7 +25,6 @@ export const AddContactModal = (props) => {
     // e.stopPropagation();
 
     const newContact = {
-      id: uuid(),
       name: contactInfo.name,
     };
 
