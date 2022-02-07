@@ -4,11 +4,12 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { connect, useDispatch } from "react-redux";
 import { addContact } from "../Actions/contactActions";
+import PropTypes from "prop-types";
 
 export const AddContactModal = (props) => {
   const [contactInfo, setContactInfo] = useState({});
   const [modalShow, setModalShow] = React.useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const onChange = (e) => {
     setContactInfo({ [e.target.name]: e.target.value });
@@ -29,7 +30,7 @@ export const AddContactModal = (props) => {
     };
 
     // Add Item Action
-    dispatch(addContact(newContact));
+    props.addContact(newContact);
 
     //close Model
     modalToggle();
@@ -42,6 +43,7 @@ export const AddContactModal = (props) => {
       </Button>
       <Modal
         show={modalShow}
+        onHide={modalToggle}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -57,8 +59,8 @@ export const AddContactModal = (props) => {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Name"
                 name="name"
+                placeholder="Enter Name"
                 onChange={onChange}
               />
             </Form.Group>

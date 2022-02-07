@@ -4,21 +4,20 @@ import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { connect, useDispatch } from "react-redux";
 import { getContacts, deleteContact } from "../Actions/contactActions";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { AddContactModal } from "./AddContactModal";
 
-function ContactList() {
-  const dispatch = useDispatch();
-  const contact = useSelector((state) => state.contact);
-  console.log(contact.contacts);
-  const contacts = contact.contacts;
+function ContactList(props) {
+  // const contact = useSelector((state) => state.contact);
+  // console.log(contact.contacts);
   useEffect(() => {
-    dispatch(getContacts());
+    props.getContacts();
   }, []);
+  const { contacts } = props.contact;
 
   const onDeleteClick = (id) => {
-    dispatch(deleteContact(id));
+    props.deleteContact(id);
   };
 
   return (
@@ -50,10 +49,10 @@ function ContactList() {
   );
 }
 
-// ContactList.propTypes = {
-//   getContacts: PropTypes.func.isRequired,
-//   contact: PropTypes.object.isRequired,
-// };
+ContactList.propTypes = {
+  getContacts: PropTypes.func.isRequired,
+  contact: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   contact: state.contact,
