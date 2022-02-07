@@ -2,19 +2,20 @@ import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import { connect } from "react-redux";
 import { getContacts, deleteContact } from "../Actions/contactActions";
-import PropTypes from "prop-types";
 import { AddContactModal } from "./AddContactModal";
+import { useSelector, useDispatch } from "react-redux";
 
-function ContactList(props) {
+function ContactList() {
+  const { contacts } = useSelector((state) => state.contact);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    props.getContacts();
+    dispatch(getContacts());
   }, []);
-  const { contacts } = props.contact;
 
   const onDeleteClick = (id) => {
-    props.deleteContact(id);
+    dispatch(deleteContact(id));
   };
 
   return (
@@ -38,15 +39,4 @@ function ContactList(props) {
   );
 }
 
-ContactList.propTypes = {
-  getContacts: PropTypes.func.isRequired,
-  contact: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  contact: state.contact,
-});
-
-export default connect(mapStateToProps, { getContacts, deleteContact })(
-  ContactList
-);
+export default ContactList;

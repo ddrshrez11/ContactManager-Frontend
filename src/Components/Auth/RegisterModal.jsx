@@ -4,31 +4,34 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import NavLink from "react-bootstrap/NavLink";
 import Alert from "react-bootstrap/Alert";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../Actions/authActions";
 import { clearErrors } from "../../Actions/errorActions";
-import PropTypes from "prop-types";
 
-export const RegisterModal = (props) => {
+export const RegisterModal = () => {
   const [userInfo, setUserInfo] = useState({});
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [msg, setMsg] = useState(null);
-  // const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const error = useSelector((state) => state.error);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const { error, isAuthenticated } = props;
     if (error.id === "REGISTER_FAIL") {
       setMsg(error.msg.msg);
     } else {
       setMsg(null);
     }
+  }, [error]);
 
-    if (modalShow) {
-      if (isAuthenticated) {
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (modalShow) {
         modalToggle();
       }
     }
-  }, [props]);
+  }, [isAuthenticated]);
 
   const onChange = (e) => {
     setUserInfo((prevState) => ({
@@ -38,7 +41,7 @@ export const RegisterModal = (props) => {
   };
 
   const modalToggle = () => {
-    props.clearErrors();
+    dispatch(clearErrors());
     setModalShow((prevState) => !prevState);
   };
 
@@ -52,7 +55,7 @@ export const RegisterModal = (props) => {
       email,
       password,
     };
-    props.register(newUser);
+    dispatch(register(newUser));
 
     // //close Model
     // modalToggle();
@@ -126,18 +129,4 @@ export const RegisterModal = (props) => {
   );
 };
 
-RegisterModal.propTypes = {
-  isAuthenticated: PropTypes.bool,
-  error: PropTypes.object.isRequired,
-  register: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  error: state.error,
-});
-
-const mapDispatchToProps = { register, clearErrors };
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterModal);
+export default RegisterModal;

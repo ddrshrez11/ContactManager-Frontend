@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { connect, useDispatch } from "react-redux";
 import { addContact } from "../Actions/contactActions";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-export const AddContactModal = (props) => {
+export const AddContactModal = () => {
   const [contactInfo, setContactInfo] = useState({});
   const [modalShow, setModalShow] = React.useState(false);
-  // const dispatch = useDispatch();
+  // const contact = useSelector((state) => state.contact);
+  const dispatch = useDispatch();
 
   const onChange = (e) => {
     setContactInfo({ [e.target.name]: e.target.value });
@@ -28,12 +29,11 @@ export const AddContactModal = (props) => {
     };
 
     // Add Item Action
-    props.addContact(newContact);
+    dispatch(addContact(newContact));
 
-    //close Model
-    modalToggle();
+    // //close Model
+    // modalToggle();
   };
-
   return (
     <div>
       <Button variant="primary" onClick={modalToggle}>
@@ -62,31 +62,14 @@ export const AddContactModal = (props) => {
                 onChange={onChange}
               />
             </Form.Group>
-
-            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group> */}
             <Button variant="primary" type="submit">
               Add
             </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={modalToggle}>Close</Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  contact: state.contact,
-});
-
-const mapDispatchToProps = { addContact };
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddContactModal);
+export default AddContactModal;

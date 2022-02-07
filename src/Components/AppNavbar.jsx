@@ -11,11 +11,10 @@ import RegisterModal from "./Auth/RegisterModal";
 import LoginModal from "./Auth/LoginModal";
 import Logout from "./Auth/Logout";
 
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
-export const AppNavbar = (props) => {
-  const { isAuthenticated, user } = props.auth;
+export const AppNavbar = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const authLinks = (
     <Fragment>
@@ -74,14 +73,4 @@ export const AppNavbar = (props) => {
   );
 };
 
-AppNavbar.propTypes = {
-  auth: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppNavbar);
+export default AppNavbar;

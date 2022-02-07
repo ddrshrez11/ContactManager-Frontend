@@ -7,28 +7,32 @@ import NavLink from "react-bootstrap/NavLink";
 import Alert from "react-bootstrap/Alert";
 import { login } from "../../Actions/authActions";
 import { clearErrors } from "../../Actions/errorActions";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-export const LoginModal = (props) => {
+export const LoginModal = () => {
   const [userInfo, setUserInfo] = useState({});
   const [modalShow, setModalShow] = React.useState(false);
   const [msg, setMsg] = useState(null);
-  // const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const error = useSelector((state) => state.error);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const { error, isAuthenticated } = props;
     if (error.id === "LOGIN_FAIL") {
       setMsg(error.msg.msg);
     } else {
       setMsg(null);
     }
+  }, [error]);
 
-    if (modalShow) {
-      if (isAuthenticated) {
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (modalShow) {
         modalToggle();
       }
     }
-  }, [props]);
+  }, [isAuthenticated]);
 
   const onChange = (e) => {
     setUserInfo((prevState) => ({
@@ -38,7 +42,7 @@ export const LoginModal = (props) => {
   };
 
   const modalToggle = () => {
-    props.clearErrors();
+    dispatch(clearErrors());
     setModalShow((prevState) => !prevState);
   };
 
@@ -52,7 +56,7 @@ export const LoginModal = (props) => {
       password,
     };
 
-    props.login(user);
+    dispatch(login(user));
   };
 
   return (
@@ -105,21 +109,4 @@ export const LoginModal = (props) => {
   );
 };
 
-LoginModal.propTypes = {
-  isAuthenticated: PropTypes.bool,
-  error: PropTypes.object.isRequired,
-  login: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  error: state.error,
-});
-
-const mapDispatchToProps = {
-  login,
-  clearErrors,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);
+export default LoginModal;
