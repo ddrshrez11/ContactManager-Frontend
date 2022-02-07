@@ -1,15 +1,15 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import NavLink from "react-bootstrap/NavLink";
 import Alert from "react-bootstrap/Alert";
-import { connect } from "react-redux";
-import { register } from "../../Actions/authActions";
+import { login } from "../../Actions/authActions";
 import { clearErrors } from "../../Actions/errorActions";
-import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-export const RegisterModal = (props) => {
+export const LoginModal = (props) => {
   const [userInfo, setUserInfo] = useState({});
   const [modalShow, setModalShow] = React.useState(false);
   const [msg, setMsg] = useState(null);
@@ -17,7 +17,7 @@ export const RegisterModal = (props) => {
 
   useEffect(() => {
     const { error, isAuthenticated } = props;
-    if (error.id === "REGISTER_FAIL") {
+    if (error.id === "LOGIN_FAIL") {
       setMsg(error.msg.msg);
     } else {
       setMsg(null);
@@ -45,23 +45,20 @@ export const RegisterModal = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const { name, email, password } = userInfo;
+    const { email, password } = userInfo;
 
-    const newUser = {
-      name,
+    const user = {
       email,
       password,
     };
-    props.register(newUser);
 
-    // //close Model
-    // modalToggle();
+    props.login(user);
   };
 
   return (
     <div>
       <NavLink onClick={modalToggle} href="#">
-        Register
+        Login
       </NavLink>
 
       <Modal
@@ -72,21 +69,11 @@ export const RegisterModal = (props) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Register</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {msg ? <Alert variant="danger">{msg}</Alert> : null}
           <Form onSubmit={onSubmit}>
-            <Form.Group className="mb-3" controlId="formUserName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                placeholder="Name"
-                onChange={onChange}
-              />
-            </Form.Group>
-
             <Form.Group className="mb-3" controlId="formUserEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -106,17 +93,9 @@ export const RegisterModal = (props) => {
                 onChange={onChange}
               />
             </Form.Group>
-
-            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group> */}
             <div className="d-grid gap-2">
               <Button variant="primary" type="submit">
-                Register
+                Login
               </Button>
             </div>
           </Form>
@@ -126,10 +105,10 @@ export const RegisterModal = (props) => {
   );
 };
 
-RegisterModal.propTypes = {
+LoginModal.propTypes = {
   isAuthenticated: PropTypes.bool,
   error: PropTypes.object.isRequired,
-  register: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
 };
 
@@ -138,6 +117,9 @@ const mapStateToProps = (state) => ({
   error: state.error,
 });
 
-const mapDispatchToProps = { register, clearErrors };
+const mapDispatchToProps = {
+  login,
+  clearErrors,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterModal);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);

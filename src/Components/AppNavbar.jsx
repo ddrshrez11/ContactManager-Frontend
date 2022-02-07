@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -8,9 +8,31 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 
 import RegisterModal from "./Auth/RegisterModal";
+import LoginModal from "./Auth/LoginModal";
 import Logout from "./Auth/Logout";
 
-function AppNavbar() {
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
+export const AppNavbar = (props) => {
+  const { isAuthenticated, user } = props.auth;
+
+  const authLinks = (
+    <Fragment>
+      <Navbar.Text>
+        <strong>{user ? `Hello! ${user.name}` : ""}</strong>
+      </Navbar.Text>
+      <Logout />
+    </Fragment>
+  );
+
+  const guestLinks = (
+    <Fragment>
+      <RegisterModal />
+      <LoginModal />
+    </Fragment>
+  );
+
   return (
     <div>
       <Navbar bg="dark" variant="dark" expand="lg">
@@ -28,10 +50,7 @@ function AppNavbar() {
               <Button variant="outline-success">Search</Button>
             </Form>
             <Nav className="ms-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
-              <RegisterModal />
-              <Logout />
+              {isAuthenticated ? authLinks : guestLinks}
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
@@ -53,6 +72,16 @@ function AppNavbar() {
       <br />
     </div>
   );
-}
+};
 
-export default AppNavbar;
+AppNavbar.propTypes = {
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavbar);

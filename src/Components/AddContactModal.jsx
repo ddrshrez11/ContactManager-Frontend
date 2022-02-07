@@ -13,7 +13,6 @@ export const AddContactModal = (props) => {
 
   const onChange = (e) => {
     setContactInfo({ [e.target.name]: e.target.value });
-    console.log(contactInfo);
   };
 
   const modalToggle = () => {
@@ -21,7 +20,6 @@ export const AddContactModal = (props) => {
   };
 
   const onSubmit = (e) => {
-    console.log("here");
     e.preventDefault();
     // e.stopPropagation();
 
