@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 
 import RegisterModal from "./Auth/RegisterModal";
-// import Logout from "./Auth/Logout";
+import Logout from "./Auth/Logout";
 
 function AppNavbar() {
   return (
@@ -31,7 +31,7 @@ function AppNavbar() {
               <Nav.Link href="#home">Home</Nav.Link>
               <Nav.Link href="#link">Link</Nav.Link>
               <RegisterModal />
-              {/* <Logout /> */}
+              <Logout />
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">

@@ -2,15 +2,12 @@ import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { getContacts, deleteContact } from "../Actions/contactActions";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { AddContactModal } from "./AddContactModal";
 
 function ContactList(props) {
-  // const contact = useSelector((state) => state.contact);
-  // console.log(contact.contacts);
   useEffect(() => {
     props.getContacts();
   }, []);
@@ -22,14 +19,6 @@ function ContactList(props) {
 
   return (
     <Container>
-      {/* <Button
-        colot="dark"
-        onClick={() => {
-          onAddClick();
-        }}
-      >
-        Add Contact
-      </Button> */}
       <AddContactModal />
       <ListGroup>
         {contacts.map(({ _id, name }) => (
