@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { addContact, editContact } from "../Actions/contactActions";
+import {
+  addContact,
+  editContact,
+  uploadImage,
+} from "../Actions/contactActions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import ActionButton from "./ActionButton";
@@ -12,9 +14,12 @@ import ContactList from "./ContactList";
 
 export const ContactForm = (props) => {
   const [contactInfo, setContactInfo] = useState({});
-  // const [previewSource, setPreviewSource] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
   const error = useSelector((state) => state.error);
   const { contacts } = useSelector((state) => state.contact);
+  const image = useSelector((state) => state.contact.image);
+  const userId = useSelector((state) => state.auth.user._id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -27,25 +32,30 @@ export const ContactForm = (props) => {
       setContactInfo({ ...editContact });
     }
   }, []);
+  useEffect(() => {
+    if (selectedFile !== "") {
+      previewFile(selectedFile);
+      console.log(selectedFile);
+    }
+  }, [selectedFile]);
 
-  // const onFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   previewFile(file);
-  //   console.log(file);
-  //   setContactInfo((prevState) => ({
-  //     ...prevState,
-  //     [e.target.name]: file.name,
-  //   }));
-  // };
+  const onFileChange = (e) => {
+    dispatch(uploadImage(e.target.files[0]));
+    setSelectedFile(e.target.files[0]);
+    // const file = selectedFile;
+    // console.log(file, selectedFile);
 
-  // const previewFile = (file) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () => {
-  //     setPreviewSource(reader.result);
-  //     return reader.result;
-  //   };
-  // };
+    // console.log(file);
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+      return reader.result;
+    };
+  };
 
   const onChange = (e) => {
     setContactInfo((prevState) => ({
@@ -56,13 +66,18 @@ export const ContactForm = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (previewSource) uploadImage(previewSource);
+    // e.stopPropagation();
+    // if (selectedFile) uploadImg(selectedFile);
     if (props.type === "add") {
+      console.log(image);
       const newContact = {
         name: contactInfo.name,
         number: contactInfo.number,
+        userId: userId,
+        photo: image.photo,
+        cloudinaryId: image.cloudinaryId,
       };
-      console.log(contactInfo);
+      console.log(newContact);
       // Add Item Action
       dispatch(addContact(newContact));
     } else if (props.type === "edit") {
@@ -71,35 +86,30 @@ export const ContactForm = (props) => {
         name: contactInfo.name,
         number: contactInfo.number,
       };
+      if (contactInfo.photo) {
+        editedContact.photo = contactInfo.photo;
+        editedContact.cloudinaryId = contactInfo.cloudinaryId;
+      }
       dispatch(editContact(params.id, editedContact));
     }
 
     navigate("/dashboard");
   };
 
-  // const uploadImage = async (base64EncodedImage) => {
-  //   console.log(base64EncodedImage);
-  //   try {
-  //     await fetch("/api/upload", {
-  //       method: "POST",
-  //       body: JSON.stringify({ data: base64EncodedImage }),
-  //       headers: { "Content-Type": "application/json" },
-  //     });
-  //     // setFileInputState('');
-  //     // setPreviewSource('');
-  //     // setSuccessMsg('Image uploaded successfully');
-  //   } catch (err) {
-  //     console.error(err);
-  //     // setErrMsg('Something went wrong!');
-  //   }
-  // };
+  const uploadImg = async (file) => {
+    try {
+      await dispatch(uploadImage(file));
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div>
       <Row>
         <Col lg={{ span: 4, offset: 4 }}>
           <h1>{props.text}</h1>
           <br />
-          {/* {previewSource && (
+          {previewSource && (
             <div style={{ textAlign: "center" }}>
               <img
                 src={previewSource}
@@ -107,9 +117,9 @@ export const ContactForm = (props) => {
                 style={{ height: "100px" }}
               />
             </div>
-          )} */}
+          )}
           <Form onSubmit={onSubmit}>
-            {/* <Form.Group className="mb-3" controlId="formContactPhoto">
+            <Form.Group className="mb-3" controlId="formContactPhoto">
               <Form.Label>Photo</Form.Label>
               <Form.Control
                 type="file"
@@ -118,7 +128,7 @@ export const ContactForm = (props) => {
                 placeholder="Upload Picture"
                 onChange={onFileChange}
               />
-            </Form.Group> */}
+            </Form.Group>
             <Form.Group className="mb-3" controlId="formContactName">
               <Form.Label>Name</Form.Label>
               <Form.Control

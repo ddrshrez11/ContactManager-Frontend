@@ -3,6 +3,7 @@ import {
   ADD_CONTACT,
   EDIT_CONTACT,
   DELETE_CONTACT,
+  UPLOAD_IMAGE,
   CONTACTS_LOADING,
 } from "../Actions/Types";
 
@@ -43,7 +44,11 @@ const contactReducer = (state = initialState, action) => {
             return contact;
           }
         }),
-        contacts: [action.payload, ...state.contacts],
+      };
+    case UPLOAD_IMAGE:
+      return {
+        ...state,
+        image: action.payload,
       };
     case CONTACTS_LOADING:
       return {

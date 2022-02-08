@@ -25,7 +25,7 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="dashboard" element={<Dashboard />}>
+            <Route path="dashboard/*" element={<Dashboard />}>
               <Route index element={<ContactList />} />
               <Route
                 path="addContact"

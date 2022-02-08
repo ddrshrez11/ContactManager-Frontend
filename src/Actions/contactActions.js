@@ -4,6 +4,7 @@ import {
   ADD_CONTACT,
   EDIT_CONTACT,
   DELETE_CONTACT,
+  UPLOAD_IMAGE,
   CONTACTS_LOADING,
 } from "./Types";
 import { tokenConfig } from "./authActions";
@@ -69,6 +70,25 @@ export const deleteContact = (id) => (dispatch, getState) => {
     );
 };
 
+export const uploadImage = (image) => (dispatch, getState) => {
+  let formData = new FormData();
+  formData.set("photo", image);
+  axios
+    .post(
+      "http://localhost:5000/contacts/upload",
+      formData,
+      tokenConfig(getState)
+    )
+    .then((res) =>
+      dispatch({
+        type: UPLOAD_IMAGE,
+        payload: res.data,
+      })
+    )
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
 export const setContactsLoading = (id) => {
   return {
     type: CONTACTS_LOADING,

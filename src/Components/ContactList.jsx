@@ -13,7 +13,7 @@ import {
   editContact,
 } from "../Actions/contactActions";
 import { AddContactModal } from "./AddContactModal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ContactList() {
   const { contacts } = useSelector((state) => state.contact);
@@ -28,10 +28,11 @@ function ContactList() {
 
   useEffect(() => {
     dispatch(getContacts());
-  }, [contacts]);
+  }, []);
 
   const onDeleteClick = (id) => {
     dispatch(deleteContact(id));
+    dispatch(getContacts());
   };
 
   const onEditClick = (id) => {
@@ -46,10 +47,13 @@ function ContactList() {
       favourite: !favourite,
     };
     dispatch(editContact(id, editedContact));
+    dispatch(getContacts());
   };
   return (
     <Fragment>
-      <AddContactModal />
+      {/* <AddContactModal /> */}
+      <Link to={"addContact"}> add</Link>
+
       <Table striped hover style={{ textAlign: "center" }}>
         <thead>
           <tr>
