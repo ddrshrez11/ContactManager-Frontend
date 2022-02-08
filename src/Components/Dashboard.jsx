@@ -15,7 +15,13 @@ function Dashboard() {
   }, [isAuthenticated]);
   return (
     <div>
-      <Container>
+      <Container
+        style={{
+          backgroundColor: "rgb(249, 251, 253)",
+          height: "90vh",
+          color: "black",
+        }}
+      >
         <Row>
           <Col sm="3">
             <Sidebar />

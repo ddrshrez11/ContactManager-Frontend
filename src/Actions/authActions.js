@@ -63,7 +63,7 @@ export const signup =
     const body = JSON.stringify({ name, email, password });
 
     axios
-      .post(`${Constants.baseURL}/signup``${Constants.baseURL}/user`, body, config)
+      .post(`${Constants.baseURL}/signup`, body, config)
       .then((res) =>
         dispatch({
           type: SIGNUP_SUCCESS,

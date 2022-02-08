@@ -1,8 +1,9 @@
 .sidebar {
   /* width: 200px; */
-  height: 80vh;
+  height: 90vh;
   border-right: 1px solid gray;
-  /* background-color: #002b49; */
+  box-shadow: 5px 0px 24px 5px rgba(208, 216, 243, 0.6);
+  background-color: rgb(249, 251, 253);
   /* position: fixed; */
 }
 @media screen and (min-width: 600px) {

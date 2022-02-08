@@ -57,7 +57,7 @@ function ContactList(props) {
   return (
     <Fragment>
       {/* <AddContactModal /> */}
-      <Link to={"addContact"}> add</Link>
+      {/* <Link to={"addContact"}> add</Link> */}
 
       <Table
         striped

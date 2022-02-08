@@ -3,15 +3,14 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
 
 import SignUpModal from "./Auth/SignUpModal";
 import SignInModal from "./Auth/SignInModal";
 import SignOut from "./Auth/SignOut";
 
 import { useSelector } from "react-redux";
+import { NavLink } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export const AppNavbar = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -22,7 +21,7 @@ export const AppNavbar = () => {
         <strong></strong>
       </Navbar.Text>
       <NavDropdown title={user ? user.name : ""} id="basic-nav-dropdown">
-        <NavDropdown.Item href="#">View Profile</NavDropdown.Item>
+        {/* <NavDropdown.Item href="#">View Profile</NavDropdown.Item> */}
         <NavDropdown.Divider />
         <SignOut />
       </NavDropdown>
@@ -31,8 +30,12 @@ export const AppNavbar = () => {
 
   const guestLinks = (
     <Fragment>
-      <SignUpModal />
-      <SignInModal />
+      <NavLink as={Link} to={"/"} href="#">
+        SignUp
+      </NavLink>
+      <NavLink as={Link} to={"/login"} href="#">
+        Sign In
+      </NavLink>
     </Fragment>
   );
 
@@ -43,7 +46,7 @@ export const AppNavbar = () => {
           <Navbar.Brand href="/">Contacts</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav ">
-            <Form className="d-flex ms-auto">
+            {/* <Form className="d-flex ms-auto">
               <FormControl
                 type="search"
                 placeholder="Search"
@@ -51,7 +54,7 @@ export const AppNavbar = () => {
                 aria-label="Search"
               />
               <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
             <Nav className="ms-auto">
               {isAuthenticated ? authLinks : guestLinks}
             </Nav>

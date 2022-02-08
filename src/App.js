@@ -19,7 +19,15 @@ function App() {
 
   return (
     <Provider store={store}>
-      <div className="App">
+      <div
+        className="App"
+        style={{
+          backgroundImage:
+            "url('https://www.womenbuildingaustralia.com.au/sites/default/files/images/Poly_BG_Grad%20%281%29_0_1.png')",
+          height: "100vh",
+          color: "white",
+        }}
+      >
         <BrowserRouter>
           <AppNavbar />
 
