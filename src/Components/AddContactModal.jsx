@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import { addContact } from "../Actions/contactActions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import ActionButton from "./ActionButton";
 
 export const AddContactModal = () => {
   const [contactInfo, setContactInfo] = useState({});
@@ -13,7 +14,10 @@ export const AddContactModal = () => {
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    setContactInfo({ [e.target.name]: e.target.value });
+    setContactInfo((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const modalToggle = () => {
@@ -26,13 +30,11 @@ export const AddContactModal = () => {
 
     const newContact = {
       name: contactInfo.name,
+      number: contactInfo.number,
     };
-
+    console.log(contactInfo);
     // Add Item Action
     dispatch(addContact(newContact));
-
-    // //close Model
-    // modalToggle();
   };
   return (
     <div>
@@ -42,7 +44,7 @@ export const AddContactModal = () => {
       <Modal
         show={modalShow}
         onHide={modalToggle}
-        size="lg"
+        // size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -62,9 +64,16 @@ export const AddContactModal = () => {
                 onChange={onChange}
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
-              Add
-            </Button>
+            <Form.Group className="mb-3" controlId="formContactNum">
+              <Form.Label>Number</Form.Label>
+              <Form.Control
+                type="numeric"
+                name="number"
+                placeholder="Enter Number"
+                onChange={onChange}
+              />
+            </Form.Group>
+            <ActionButton text="Add Contact" />
           </Form>
         </Modal.Body>
       </Modal>

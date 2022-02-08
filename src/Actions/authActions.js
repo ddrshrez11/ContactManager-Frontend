@@ -3,11 +3,11 @@ import {
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
+  SIGNIN_SUCCESS,
+  SIGNIN_FAIL,
+  SIGNOUT_SUCCESS,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAIL,
 } from "../Actions/Types";
 import { returnErrors } from "./errorActions";
 
@@ -17,7 +17,7 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .token("http://localhost:5000/api/auth/user", tokenConfig(getState))
+    .get("http://localhost:5000/user", tokenConfig(getState))
     .then((res) =>
       dispatch({
         type: USER_LOADED,
@@ -49,8 +49,8 @@ export const tokenConfig = (getState) => {
   return config;
 };
 
-//Register User
-export const register =
+//SignUp User
+export const signup =
   ({ name, email, password }) =>
   (dispatch) => {
     const config = {
@@ -62,25 +62,25 @@ export const register =
     const body = JSON.stringify({ name, email, password });
 
     axios
-      .post("http://localhost:5000/api/user", body, config)
+      .post("http://localhost:5000/signup", body, config)
       .then((res) =>
         dispatch({
-          type: REGISTER_SUCCESS,
+          type: SIGNUP_SUCCESS,
           payload: res.data,
         })
       )
       .catch((err) => {
         dispatch(
-          returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
+          returnErrors(err.response.data, err.response.status, "SIGNUP_FAIL")
         );
         dispatch({
-          type: REGISTER_FAIL,
+          type: SIGNUP_FAIL,
         });
       });
   };
 
-//Login User
-export const login =
+//SignIn User
+export const signin =
   ({ email, password }) =>
   (dispatch) => {
     const config = {
@@ -92,26 +92,26 @@ export const login =
     const body = JSON.stringify({ email, password });
 
     axios
-      .post("http://localhost:5000/api/auth", body, config)
+      .post("http://localhost:5000/signin", body, config)
       .then((res) =>
         dispatch({
-          type: LOGIN_SUCCESS,
+          type: SIGNIN_SUCCESS,
           payload: res.data,
         })
       )
       .catch((err) => {
         dispatch(
-          returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
+          returnErrors(err.response.data, err.response.status, "SIGNIN_FAIL")
         );
         dispatch({
-          type: LOGIN_FAIL,
+          type: SIGNIN_FAIL,
         });
       });
   };
 
-//Logout
-export const logout = () => {
+//SignOut
+export const signout = () => {
   return {
-    type: LOGOUT_SUCCESS,
+    type: SIGNOUT_SUCCESS,
   };
 };

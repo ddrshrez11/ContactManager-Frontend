@@ -7,9 +7,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 
-import RegisterModal from "./Auth/RegisterModal";
-import LoginModal from "./Auth/LoginModal";
-import Logout from "./Auth/Logout";
+import SignUpModal from "./Auth/SignUpModal";
+import SignInModal from "./Auth/SignInModal";
+import SignOut from "./Auth/SignOut";
 
 import { useSelector } from "react-redux";
 
@@ -19,16 +19,20 @@ export const AppNavbar = () => {
   const authLinks = (
     <Fragment>
       <Navbar.Text>
-        <strong>{user ? `Hello! ${user.name}` : ""}</strong>
+        <strong></strong>
       </Navbar.Text>
-      <Logout />
+      <NavDropdown title={user ? user.name : ""} id="basic-nav-dropdown">
+        <NavDropdown.Item href="#">View Profile</NavDropdown.Item>
+        <NavDropdown.Divider />
+        <SignOut />
+      </NavDropdown>
     </Fragment>
   );
 
   const guestLinks = (
     <Fragment>
-      <RegisterModal />
-      <LoginModal />
+      <SignUpModal />
+      <SignInModal />
     </Fragment>
   );
 
@@ -50,25 +54,11 @@ export const AppNavbar = () => {
             </Form>
             <Nav className="ms-auto">
               {isAuthenticated ? authLinks : guestLinks}
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-              </NavDropdown>
             </Nav>
           </Navbar.Collapse>
           {/* <Button variant="primary">Primary</Button> */}
         </Container>
       </Navbar>
-      <br />
     </div>
   );
 };

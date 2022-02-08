@@ -1,17 +1,17 @@
-import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import NavLink from "react-bootstrap/NavLink";
 import Alert from "react-bootstrap/Alert";
-import { login } from "../../Actions/authActions";
-import { clearErrors } from "../../Actions/errorActions";
 import { useDispatch, useSelector } from "react-redux";
+import { signup } from "../../Actions/authActions";
+import { clearErrors } from "../../Actions/errorActions";
+import ActionButton from "../ActionButton";
 
-export const LoginModal = () => {
+export const SignUpModal = () => {
   const [userInfo, setUserInfo] = useState({});
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [msg, setMsg] = useState(null);
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -19,7 +19,7 @@ export const LoginModal = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (error.id === "LOGIN_FAIL") {
+    if (error.id === "SIGNUP_FAIL") {
       setMsg(error.msg.msg);
     } else {
       setMsg(null);
@@ -49,20 +49,23 @@ export const LoginModal = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const { email, password } = userInfo;
+    const { name, email, password } = userInfo;
 
-    const user = {
+    const newUser = {
+      name,
       email,
       password,
     };
+    dispatch(signup(newUser));
 
-    dispatch(login(user));
+    // //close Model
+    // modalToggle();
   };
 
   return (
     <div>
       <NavLink onClick={modalToggle} href="#">
-        Login
+        SignUp
       </NavLink>
 
       <Modal
@@ -73,11 +76,21 @@ export const LoginModal = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Login</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">SignUp</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {msg ? <Alert variant="danger">{msg}</Alert> : null}
           <Form onSubmit={onSubmit}>
+            <Form.Group className="mb-3" controlId="formUserName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                placeholder="Name"
+                onChange={onChange}
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="formUserEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -97,11 +110,15 @@ export const LoginModal = () => {
                 onChange={onChange}
               />
             </Form.Group>
-            <div className="d-grid gap-2">
-              <Button variant="primary" type="submit">
-                Login
-              </Button>
-            </div>
+
+            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group> */}
+            <ActionButton text="Sign Up" />
           </Form>
         </Modal.Body>
       </Modal>
@@ -109,4 +126,4 @@ export const LoginModal = () => {
   );
 };
 
-export default LoginModal;
+export default SignUpModal;

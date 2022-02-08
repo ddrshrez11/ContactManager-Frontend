@@ -1,16 +1,18 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import NavLink from "react-bootstrap/NavLink";
 import Alert from "react-bootstrap/Alert";
-import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../Actions/authActions";
+import { signin } from "../../Actions/authActions";
 import { clearErrors } from "../../Actions/errorActions";
+import { useDispatch, useSelector } from "react-redux";
+import ActionButton from "../ActionButton";
 
-export const RegisterModal = () => {
+export const SignInModal = () => {
   const [userInfo, setUserInfo] = useState({});
-  const [modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = React.useState(false);
   const [msg, setMsg] = useState(null);
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -18,7 +20,7 @@ export const RegisterModal = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (error.id === "REGISTER_FAIL") {
+    if (error.id === "SIGNIN_FAIL") {
       setMsg(error.msg.msg);
     } else {
       setMsg(null);
@@ -48,23 +50,20 @@ export const RegisterModal = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const { name, email, password } = userInfo;
+    const { email, password } = userInfo;
 
-    const newUser = {
-      name,
+    const user = {
       email,
       password,
     };
-    dispatch(register(newUser));
 
-    // //close Model
-    // modalToggle();
+    dispatch(signin(user));
   };
 
   return (
     <div>
       <NavLink onClick={modalToggle} href="#">
-        Register
+        SignIn
       </NavLink>
 
       <Modal
@@ -75,21 +74,11 @@ export const RegisterModal = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Register</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">SignIn</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {msg ? <Alert variant="danger">{msg}</Alert> : null}
           <Form onSubmit={onSubmit}>
-            <Form.Group className="mb-3" controlId="formUserName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                placeholder="Name"
-                onChange={onChange}
-              />
-            </Form.Group>
-
             <Form.Group className="mb-3" controlId="formUserEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -109,19 +98,7 @@ export const RegisterModal = () => {
                 onChange={onChange}
               />
             </Form.Group>
-
-            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group> */}
-            <div className="d-grid gap-2">
-              <Button variant="primary" type="submit">
-                Register
-              </Button>
-            </div>
+            <ActionButton text="Sign In" />
           </Form>
         </Modal.Body>
       </Modal>
@@ -129,4 +106,4 @@ export const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default SignInModal;

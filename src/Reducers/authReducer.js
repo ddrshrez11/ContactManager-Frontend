@@ -2,11 +2,11 @@ import {
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
+  SIGNIN_SUCCESS,
+  SIGNIN_FAIL,
+  SIGNOUT_SUCCESS,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAIL,
 } from "../Actions/Types";
 
 const initialState = {
@@ -30,8 +30,8 @@ const authReducer = (state = initialState, action) => {
         isLoading: false,
         user: action.payload,
       };
-    case REGISTER_SUCCESS:
-    case LOGIN_SUCCESS:
+    case SIGNUP_SUCCESS:
+    case SIGNIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
@@ -40,9 +40,9 @@ const authReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case AUTH_ERROR:
-    case LOGIN_FAIL:
-    case LOGOUT_SUCCESS:
-    case REGISTER_FAIL:
+    case SIGNIN_FAIL:
+    case SIGNOUT_SUCCESS:
+    case SIGNUP_FAIL:
       localStorage.removeItem("token");
       return {
         ...state,
