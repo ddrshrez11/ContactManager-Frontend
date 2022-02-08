@@ -27,6 +27,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="dashboard/*" element={<Dashboard />}>
               <Route index element={<ContactList />} />
+              <Route path="favourites" element={<ContactList type="fav" />} />
               <Route
                 path="addContact"
                 element={<ContactForm text="Add Contact" type="add" />}

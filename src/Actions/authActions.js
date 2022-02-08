@@ -9,6 +9,7 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_FAIL,
 } from "../Actions/Types";
+import Constants from "../Constants";
 import { returnErrors } from "./errorActions";
 
 //Check token & load user
@@ -17,7 +18,7 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .get("http://localhost:5000/user", tokenConfig(getState))
+    .get(`${Constants.baseURL}/user`, tokenConfig(getState))
     .then((res) =>
       dispatch({
         type: USER_LOADED,
@@ -62,7 +63,7 @@ export const signup =
     const body = JSON.stringify({ name, email, password });
 
     axios
-      .post("http://localhost:5000/signup", body, config)
+      .post(`${Constants.baseURL}/signup``${Constants.baseURL}/user`, body, config)
       .then((res) =>
         dispatch({
           type: SIGNUP_SUCCESS,
@@ -92,7 +93,7 @@ export const signin =
     const body = JSON.stringify({ email, password });
 
     axios
-      .post("http://localhost:5000/signin", body, config)
+      .post(`${Constants.baseURL}/signin`, body, config)
       .then((res) =>
         dispatch({
           type: SIGNIN_SUCCESS,

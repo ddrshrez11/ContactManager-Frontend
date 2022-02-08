@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./sidebar.css";
@@ -14,8 +14,10 @@ function Sidebar() {
           <Nav.Link as={Link} to={"addContact"} href="">
             Add Contact
           </Nav.Link>
-          <Nav.Link eventKey="link-1">Favourites</Nav.Link>
-          <Nav.Link eventKey="link-2">Recent Called</Nav.Link>
+          <Nav.Link as={Link} to={"favourites"} href="">
+            Favourites
+          </Nav.Link>
+          {/* <Nav.Link eventKey="link-2">Recent Called</Nav.Link> */}
         </Nav>
       </div>
     </div>

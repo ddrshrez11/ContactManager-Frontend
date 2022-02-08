@@ -9,11 +9,12 @@ import {
 } from "./Types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
+import Constants from "../Constants";
 
 export const getContacts = (id) => (dispatch, getState) => {
   dispatch(setContactsLoading());
   axios
-    .get("http://localhost:5000/contacts", tokenConfig(getState), id)
+    .get(`${Constants.baseURL}/contacts`, tokenConfig(getState), id)
     .then((res) =>
       dispatch({
         type: GET_CONTACTS,
@@ -26,7 +27,7 @@ export const getContacts = (id) => (dispatch, getState) => {
 };
 export const addContact = (newContact) => (dispatch, getState) => {
   axios
-    .post("http://localhost:5000/contacts", newContact, tokenConfig(getState))
+    .post(`${Constants.baseURL}/contacts`, newContact, tokenConfig(getState))
     .then((res) =>
       dispatch({
         type: ADD_CONTACT,
@@ -41,7 +42,7 @@ export const addContact = (newContact) => (dispatch, getState) => {
 export const editContact = (id, contactData) => (dispatch, getState) => {
   axios
     .put(
-      `http://localhost:5000/contacts/${id}`,
+      `${Constants.baseURL}/contacts/${id}`,
       contactData,
       tokenConfig(getState)
     )
@@ -58,7 +59,7 @@ export const editContact = (id, contactData) => (dispatch, getState) => {
 
 export const deleteContact = (id) => (dispatch, getState) => {
   axios
-    .delete(`http://localhost:5000/contacts/${id}`, tokenConfig(getState))
+    .delete(`${Constants.baseURL}/contacts/${id}`, tokenConfig(getState))
     .then((res) =>
       dispatch({
         type: DELETE_CONTACT,
@@ -75,7 +76,7 @@ export const uploadImage = (image) => (dispatch, getState) => {
   formData.set("photo", image);
   axios
     .post(
-      "http://localhost:5000/contacts/upload",
+      `${Constants.baseURL}/contacts/upload`,
       formData,
       tokenConfig(getState)
     )

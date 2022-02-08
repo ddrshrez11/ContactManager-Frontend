@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import SignInForm from "./Auth/SignInForm";
 import SignUpForm from "./Auth/SignUpForm";
 
 function Landing() {
@@ -30,7 +29,7 @@ function Landing() {
             <SignUpForm />
             <br />
             <div className="text-center">
-              <muted>Already Registered? </muted>
+              <em>Already Registered? </em>
               <Link to="/login">Login Here</Link>
             </div>
           </Col>

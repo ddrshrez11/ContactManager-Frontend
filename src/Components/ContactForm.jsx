@@ -10,13 +10,12 @@ import { useDispatch } from "react-redux";
 import ActionButton from "./ActionButton";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import ContactList from "./ContactList";
 
 export const ContactForm = (props) => {
   const [contactInfo, setContactInfo] = useState({});
   const [previewSource, setPreviewSource] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
-  const error = useSelector((state) => state.error);
+  // const error = useSelector((state) => state.error);
   const { contacts } = useSelector((state) => state.contact);
   const image = useSelector((state) => state.contact.image);
   const userId = useSelector((state) => state.auth.user._id);

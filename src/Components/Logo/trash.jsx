@@ -8,7 +8,7 @@ function trash() {
         width="20"
         height="20"
         fill="gray"
-        class="bi bi-trash3"
+        className="bi bi-trash3"
         viewBox="0 0 16 16"
       >
         <path

@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from "react";
-import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import HeartFilled from "./Logo/filled";
 import HeartUnfilled from "./Logo/unfilled";
@@ -12,14 +11,17 @@ import {
   deleteContact,
   editContact,
 } from "../Actions/contactActions";
-import { AddContactModal } from "./AddContactModal";
 import { Link, useNavigate } from "react-router-dom";
 import CldImg from "./CldImg";
 
-function ContactList() {
+function ContactList(props) {
   const { contacts } = useSelector((state) => state.contact);
   const userId = useSelector((state) => state.auth.user._id);
 
+  const displayContacts =
+    props.type === "fav"
+      ? contacts.filter((contact) => contact.favourite)
+      : contacts;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -71,7 +73,7 @@ function ContactList() {
           </tr>
         </thead>
         <tbody>
-          {contacts.map(
+          {displayContacts.map(
             ({ _id, name, number, favourite, cloudinaryId }, index) => (
               <tr key={_id}>
                 <td>
