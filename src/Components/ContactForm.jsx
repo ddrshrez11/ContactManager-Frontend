@@ -42,10 +42,6 @@ export const ContactForm = (props) => {
   const onFileChange = (e) => {
     dispatch(uploadImage(e.target.files[0]));
     setSelectedFile(e.target.files[0]);
-    // const file = selectedFile;
-    // console.log(file, selectedFile);
-
-    // console.log(file);
   };
 
   const previewFile = (file) => {
@@ -66,8 +62,6 @@ export const ContactForm = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // e.stopPropagation();
-    // if (selectedFile) uploadImg(selectedFile);
     if (props.type === "add") {
       console.log(image);
       const newContact = {
@@ -96,13 +90,6 @@ export const ContactForm = (props) => {
     navigate("/dashboard");
   };
 
-  const uploadImg = async (file) => {
-    try {
-      await dispatch(uploadImage(file));
-    } catch (err) {
-      console.error(err);
-    }
-  };
   return (
     <div>
       <Row>

@@ -10,10 +10,10 @@ import {
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 
-export const getContacts = () => (dispatch, getState) => {
+export const getContacts = (id) => (dispatch, getState) => {
   dispatch(setContactsLoading());
   axios
-    .get("http://localhost:5000/contacts", tokenConfig(getState))
+    .get("http://localhost:5000/contacts", tokenConfig(getState), id)
     .then((res) =>
       dispatch({
         type: GET_CONTACTS,

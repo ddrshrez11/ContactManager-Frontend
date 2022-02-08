@@ -14,9 +14,12 @@ import {
 } from "../Actions/contactActions";
 import { AddContactModal } from "./AddContactModal";
 import { Link, useNavigate } from "react-router-dom";
+import CldImg from "./CldImg";
 
 function ContactList() {
   const { contacts } = useSelector((state) => state.contact);
+  const userId = useSelector((state) => state.auth.user._id);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +30,7 @@ function ContactList() {
   };
 
   useEffect(() => {
-    dispatch(getContacts());
+    dispatch(getContacts(userId));
   }, []);
 
   const onDeleteClick = (id) => {
@@ -54,42 +57,53 @@ function ContactList() {
       {/* <AddContactModal /> */}
       <Link to={"addContact"}> add</Link>
 
-      <Table striped hover style={{ textAlign: "center" }}>
+      <Table
+        striped
+        hover
+        style={{ textAlign: "center", verticalAlign: "middle" }}
+      >
         <thead>
           <tr>
-            <th style={{ width: "5%" }}>#</th>
+            <th style={{ width: "5%" }}></th>
             <th>Name</th>
             <th>Number</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {contacts.map(({ _id, name, number, favourite }, index) => (
-            <tr key={_id}>
-              <td>{index + 1}</td>
-              <td>{name}</td>
-              <td>{number}</td>
-              <td>
-                <button
-                  style={iconClickStyle}
-                  onClick={() => onFavClick(_id, favourite)}
-                >
-                  {favourite ? <HeartFilled /> : <HeartUnfilled />}
-                </button>
-                &nbsp;&nbsp;
-                <button
-                  style={iconClickStyle}
-                  onClick={() => onDeleteClick(_id)}
-                >
-                  <Trash />
-                </button>
-                &nbsp;&nbsp;
-                <button style={iconClickStyle} onClick={() => onEditClick(_id)}>
-                  <Edit />
-                </button>
-              </td>
-            </tr>
-          ))}
+          {contacts.map(
+            ({ _id, name, number, favourite, cloudinaryId }, index) => (
+              <tr key={_id}>
+                <td>
+                  <CldImg imgId={cloudinaryId} />
+                </td>
+                <td>{name}</td>
+                <td>{number}</td>
+                <td>
+                  <button
+                    style={iconClickStyle}
+                    onClick={() => onFavClick(_id, favourite)}
+                  >
+                    {favourite ? <HeartFilled /> : <HeartUnfilled />}
+                  </button>
+                  &nbsp;&nbsp;
+                  <button
+                    style={iconClickStyle}
+                    onClick={() => onDeleteClick(_id)}
+                  >
+                    <Trash />
+                  </button>
+                  &nbsp;&nbsp;
+                  <button
+                    style={iconClickStyle}
+                    onClick={() => onEditClick(_id)}
+                  >
+                    <Edit />
+                  </button>
+                </td>
+              </tr>
+            )
+          )}
         </tbody>
       </Table>
     </Fragment>

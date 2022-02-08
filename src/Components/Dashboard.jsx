@@ -21,12 +21,11 @@ function Dashboard() {
       <Container>
         <Row>
           <Col lg="2">
-            {/* <Sidebar /> */}
+            <Sidebar />
           </Col>
           <Col lg="10" md="12">
             <h1>Dashboard</h1>
             <Outlet />
-            {/* <ContactList /> */}
           </Col>
         </Row>
       </Container>

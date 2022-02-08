@@ -1,9 +1,8 @@
 .sidebar {
   width: 200px;
-  height: 100vh;
-  background-color: #002b49;
-  position: fixed;
-  
+  height: 80vh;
+  /* background-color: #002b49; */
+  /* position: fixed; */
 }
 .flex-column {
   align-items: center;
