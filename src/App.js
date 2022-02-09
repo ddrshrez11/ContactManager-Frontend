@@ -11,6 +11,7 @@ import Landing from "./Components/Landing";
 import AppNavbar from "./Components/AppNavbar";
 import SignIn from "./Components/SignIn";
 import ContactForm from "./Components/ContactForm";
+import ViewContact from "./Components/ViewContact";
 
 function App() {
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
                 path="edit/:id"
                 element={<ContactForm text="Edit Contact" type="edit" />}
               />
+              <Route path="view/:id" element={<ViewContact />} />
             </Route>
             <Route path="login" element={<SignIn />} />
           </Routes>

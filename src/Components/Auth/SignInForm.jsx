@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import NavLink from "react-bootstrap/NavLink";
 import Alert from "react-bootstrap/Alert";
 import { signin } from "../../Actions/authActions";
-import { clearErrors } from "../../Actions/errorActions";
+// import { clearErrors } from "../../Actions/errorActions";
 import { useDispatch, useSelector } from "react-redux";
 import ActionButton from "../ActionButton";
-import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 export const SignInForm = () => {
   const [userInfo, setUserInfo] = useState({});
-  const [modalShow, setModalShow] = React.useState(false);
   const [msg, setMsg] = useState(null);
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -41,21 +37,14 @@ export const SignInForm = () => {
     }));
   };
 
-  // const modalToggle = () => {
-  //   dispatch(clearErrors());
-  //   setModalShow((prevState) => !prevState);
-  // };
-
+  // send request on submit
   const onSubmit = (e) => {
     e.preventDefault();
-
     const { email, password } = userInfo;
-
     const user = {
       email,
       password,
     };
-
     dispatch(signin(user));
   };
 

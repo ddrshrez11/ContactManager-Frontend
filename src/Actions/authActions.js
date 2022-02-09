@@ -16,7 +16,6 @@ import { returnErrors } from "./errorActions";
 export const loadUser = () => (dispatch, getState) => {
   //User Loading
   dispatch({ type: USER_LOADING });
-
   axios
     .get(`${Constants.baseURL}/user`, tokenConfig(getState))
     .then((res) =>
@@ -33,6 +32,7 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
+// send token with Request Header
 export const tokenConfig = (getState) => {
   //Get token from local storage
   const token = getState().auth.token;
@@ -50,7 +50,7 @@ export const tokenConfig = (getState) => {
   return config;
 };
 
-//SignUp User
+//Sign Up User
 export const signup =
   ({ name, email, password }) =>
   (dispatch) => {
@@ -80,7 +80,7 @@ export const signup =
       });
   };
 
-//SignIn User
+//Sign In User
 export const signin =
   ({ email, password }) =>
   (dispatch) => {
@@ -91,7 +91,6 @@ export const signin =
     };
 
     const body = JSON.stringify({ email, password });
-
     axios
       .post(`${Constants.baseURL}/signin`, body, config)
       .then((res) =>

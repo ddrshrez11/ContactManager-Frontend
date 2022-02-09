@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-function unfilled() {
+function Unfilled() {
   return (
     <Fragment>
       <svg
@@ -17,4 +17,4 @@ function unfilled() {
   );
 }
 
-export default unfilled;
+export default Unfilled;

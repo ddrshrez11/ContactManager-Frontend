@@ -11,6 +11,7 @@ import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 import Constants from "../Constants";
 
+// get all contacts of the user
 export const getContacts = (id) => (dispatch, getState) => {
   dispatch(setContactsLoading());
   axios
@@ -25,6 +26,8 @@ export const getContacts = (id) => (dispatch, getState) => {
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
+
+// add new contact
 export const addContact = (newContact) => (dispatch, getState) => {
   axios
     .post(`${Constants.baseURL}/contacts`, newContact, tokenConfig(getState))
@@ -39,6 +42,7 @@ export const addContact = (newContact) => (dispatch, getState) => {
     );
 };
 
+// edit existing contact
 export const editContact = (id, contactData) => (dispatch, getState) => {
   axios
     .put(
@@ -57,6 +61,7 @@ export const editContact = (id, contactData) => (dispatch, getState) => {
     );
 };
 
+// delete existing contact
 export const deleteContact = (id) => (dispatch, getState) => {
   axios
     .delete(`${Constants.baseURL}/contacts/${id}`, tokenConfig(getState))
@@ -71,6 +76,7 @@ export const deleteContact = (id) => (dispatch, getState) => {
     );
 };
 
+//upload contact image
 export const uploadImage = (image) => (dispatch, getState) => {
   let formData = new FormData();
   formData.set("photo", image);
@@ -90,6 +96,8 @@ export const uploadImage = (image) => (dispatch, getState) => {
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
+
+// set loading to get new contacts
 export const setContactsLoading = (id) => {
   return {
     type: CONTACTS_LOADING,
