@@ -17,7 +17,6 @@ function Sidebar() {
           <Nav.Link as={Link} to={"favourites"} href="">
             Favourites
           </Nav.Link>
-          {/* <Nav.Link eventKey="link-2">Recent Called</Nav.Link> */}
         </Nav>
       </div>
     </div>

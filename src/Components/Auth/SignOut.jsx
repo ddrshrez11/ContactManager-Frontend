@@ -6,6 +6,8 @@ import { signout } from "../../Actions/authActions";
 export const SignOut = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //perform signout and redirect to landing page
   const handleClick = () => {
     dispatch(signout());
     navigate("/");

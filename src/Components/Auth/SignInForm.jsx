@@ -16,6 +16,7 @@ export const SignInForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Check for sign in error
   useEffect(() => {
     if (error.id === "SIGNIN_FAIL") {
       setMsg(error.msg.msg);
@@ -24,12 +25,14 @@ export const SignInForm = () => {
     }
   }, [error]);
 
+  //redirect to dashboard if authenticated
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/dashboard");
     }
   }, [isAuthenticated]);
 
+  //set form values to state
   const onChange = (e) => {
     setUserInfo((prevState) => ({
       ...prevState,

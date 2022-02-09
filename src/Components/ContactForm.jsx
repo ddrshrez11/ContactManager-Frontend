@@ -19,6 +19,7 @@ export const ContactForm = (props) => {
   const [selectedFile, setSelectedFile] = useState("");
   const [validated, setValidated] = useState(false);
   // const error = useSelector((state) => state.error);
+
   const { contacts } = useSelector((state) => state.contact);
   const image = useSelector((state) => state.contact.image);
   const userId = useSelector((state) => state.auth.user._id);
@@ -28,6 +29,7 @@ export const ContactForm = (props) => {
   const imgHeight = 100;
   const imgWidth = 100;
 
+  //get existing data to Edit
   useEffect(() => {
     if (props.type === "edit") {
       // console.log(contacts);
@@ -38,6 +40,7 @@ export const ContactForm = (props) => {
     }
   }, []);
 
+  //Call function to display uploaded image
   useEffect(() => {
     if (selectedFile !== "") {
       previewFile(selectedFile);
@@ -45,6 +48,7 @@ export const ContactForm = (props) => {
     }
   }, [selectedFile]);
 
+  //update uploaded image
   const onFileChange = (e) => {
     if (e.target.files[0]) {
       dispatch(uploadImage(e.target.files[0]));
@@ -52,6 +56,7 @@ export const ContactForm = (props) => {
     }
   };
 
+  //display uploaded image
   const previewFile = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -61,6 +66,7 @@ export const ContactForm = (props) => {
     };
   };
 
+  //set form values to state
   const onChange = (e) => {
     setContactInfo((prevState) => ({
       ...prevState,
@@ -68,12 +74,14 @@ export const ContactForm = (props) => {
     }));
   };
 
+  //set number values to state
   const handleNumChange = (e, index) => {
     const values = [...numbers];
     values[index][e.target.name] = e.target.value;
     setNumbers(values);
   };
 
+  // send request on submit
   const onSubmit = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -113,12 +121,15 @@ export const ContactForm = (props) => {
     }
   };
 
+  //Add number field
   const handleAddField = () => {
     setNumbers((prevState) => [
       ...prevState,
       { category: "Phone", number: "" },
     ]);
   };
+
+  //Remove number Fields
   const handleRemoveField = (index) => {
     const values = [...numbers];
     if (values.length > 1) {

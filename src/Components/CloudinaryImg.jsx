@@ -23,7 +23,7 @@ function CloudinaryImg(props) {
         .zoom(0.75)
         .gravity(focusOn(FocusOn.face()))
     ) // Crop the image, focusing on the face.
-    .roundCorners(byRadius(20)) // Round the corners.
+    .roundCorners(byRadius(20)); // Round the corners.
 
   myImage.format("png");
 

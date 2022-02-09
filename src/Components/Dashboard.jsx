@@ -8,18 +8,23 @@ import Sidebar from "./Sidebar/Sidebar";
 
 function Dashboard() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  console.log(isAuthenticated);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  //load user details
   useEffect(() => {
     dispatch(loadUser());
   }, []);
 
+  //redirect to landing page if not authenticated
   useEffect(() => {
+    console.log(isAuthenticated);
     if (!isAuthenticated) {
       navigate("/");
     }
   }, [isAuthenticated]);
+
+  
   return (
     <div>
       <Container

@@ -26,32 +26,38 @@ function ContactList(props) {
       ? contacts.filter((contact) => contact.favourite)
       : contacts;
 
-  // console.log(contacts);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Style of action buttons
   const iconClickStyle = {
     backgroundColor: "rgba(0,0,0,0)",
     border: "none",
     fontFamily: "Arial",
   };
 
+  //Get contact data from DB
   useEffect(() => {
     dispatch(getContacts(userId));
   }, []);
 
+  //Delete Contact
   const onDeleteClick = (id) => {
     dispatch(deleteContact(id));
     dispatch(getContacts());
   };
 
+  // Navigate to edit contact page
   const onEditClick = (id) => {
     navigate(`/dashboard/edit/${id}`);
   };
+
+  // Navigate to view contact page
   const handleView = (id) => {
     navigate(`/dashboard/view/${id}`);
   };
 
+  //Favourite Contact
   const onFavClick = (id, favourite) => {
     // e.stopPropagation();
     console.log("favourite");
@@ -62,6 +68,7 @@ function ContactList(props) {
     dispatch(getContacts(userId));
     // console.log(contacts);
   };
+
   return (
     <Fragment>
       <h1>{props.type === "fav" ? "Favourites" : "All Contacts"}</h1>

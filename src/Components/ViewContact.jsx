@@ -20,59 +20,24 @@ export const ViewContact = (props) => {
   const imgHeight = 100;
   const imgWidth = 100;
 
+  //get existing data to View
   useEffect(() => {
     const dispContact = contacts.find((contact) => contact._id === params.id);
     console.log(dispContact);
     setContactInfo({ ...dispContact });
     setNumbers([...dispContact.numbers]);
   }, []);
+
+  //Delete Contact
   const onDeleteClick = (id) => {
     dispatch(deleteContact(id));
     navigate(`/dashboard`);
   };
 
+  // Navigate to edit contact page
   const onEditClick = (id) => {
     navigate(`/dashboard/edit/${id}`);
   };
-
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   const form = e.currentTarget;
-  //   if (form.checkValidity() === false) {
-  //     e.stopPropagation();
-  //   } else {
-  //     setValidated(true);
-  //     if (props.type === "add") {
-  //       console.log(image);
-  //       const newContact = {
-  //         name: contactInfo.name,
-  //         numbers: numbers,
-  //         userId: userId,
-  //         favourite: contactInfo.favourite,
-  //       };
-  //       if (image) {
-  //         newContact.photo = image.photo;
-  //         newContact.cloudinaryId = image.cloudinaryId;
-  //       }
-  //       console.log(newContact);
-  //       // Add Item Action
-  //       dispatch(addContact(newContact));
-  //     } else if (props.type === "edit") {
-  //       console.log("edit");
-  //       const editedContact = {
-  //         name: contactInfo.name,
-  //         numbers: numbers,
-  //       };
-  //       if (contactInfo.photo) {
-  //         editedContact.photo = contactInfo.photo;
-  //         editedContact.cloudinaryId = contactInfo.cloudinaryId;
-  //       }
-  //       dispatch(editContact(params.id, editedContact));
-  //     }
-
-  //     navigate("/dashboard");
-  //   }
-  // };
 
   return (
     <div>

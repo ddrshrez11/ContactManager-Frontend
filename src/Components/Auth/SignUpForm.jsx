@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import NavLink from "react-bootstrap/NavLink";
 import Alert from "react-bootstrap/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../Actions/authActions";
@@ -11,9 +8,8 @@ import ActionButton from "../ActionButton";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-export const SignUpModal = () => {
+export const SignUpForm = () => {
   const [userInfo, setUserInfo] = useState({});
-  const [modalShow, setModalShow] = useState(false);
   const [msg, setMsg] = useState(null);
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -21,6 +17,7 @@ export const SignUpModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Check for sign in error
   useEffect(() => {
     if (error.id === "SIGNUP_FAIL") {
       setMsg(error.msg.msg);
@@ -29,12 +26,14 @@ export const SignUpModal = () => {
     }
   }, [error]);
 
+  //redirect to dashboard if authenticated
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/dashboard");
     }
-  }, [isAuthenticated]);
+  }, []);
 
+  //set form values to state
   const onChange = (e) => {
     setUserInfo((prevState) => ({
       ...prevState,
@@ -42,16 +41,11 @@ export const SignUpModal = () => {
     }));
   };
 
-  const modalToggle = () => {
-    dispatch(clearErrors());
-    setModalShow((prevState) => !prevState);
-  };
-
+  // send request on submit
   const onSubmit = (e) => {
     e.preventDefault();
 
     const { name, email, password } = userInfo;
-
     const newUser = {
       name,
       email,
@@ -102,14 +96,6 @@ export const SignUpModal = () => {
                 onChange={onChange}
               />
             </Form.Group>
-
-            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group> */}
             <ActionButton text="Sign Up" />
           </Form>
         </Col>
@@ -118,4 +104,4 @@ export const SignUpModal = () => {
   );
 };
 
-export default SignUpModal;
+export default SignUpForm;

@@ -8,12 +8,13 @@ function Landing() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
 
+  //redirect to Dashboard page if authenticated
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/dashboard");
     }
   }, [isAuthenticated]);
-  
+
   return (
     <div>
       <Container>

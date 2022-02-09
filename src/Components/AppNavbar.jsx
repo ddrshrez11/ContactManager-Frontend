@@ -3,16 +3,16 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
-
-import SignOut from "./Auth/SignOut";
-
 import { useSelector } from "react-redux";
 import { NavLink } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+import SignOut from "./Auth/SignOut";
+
 export const AppNavbar = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
+  // Links to display in Navbar if use is authenticated
   const authLinks = (
     <Fragment>
       <Navbar.Text>
@@ -25,7 +25,8 @@ export const AppNavbar = () => {
       </NavDropdown>
     </Fragment>
   );
-
+  
+  // Links to display in Navbar if use is NOT authenticated
   const guestLinks = (
     <Fragment>
       <NavLink as={Link} to={"/"} href="#">
