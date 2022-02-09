@@ -142,6 +142,13 @@ function ContactList(props) {
               </tr>
             )
           )}
+          {displayContacts.length === 0 && (
+            <tr>
+              <td colSpan={4}>
+                <p>No Contacts Added</p>
+              </td>
+            </tr>
+          )}
         </tbody>
       </Table>
     </Fragment>
